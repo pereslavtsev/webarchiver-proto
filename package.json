@@ -2,6 +2,8 @@
   "name": "@webarchiver/protoc",
   "version": "0.0.1",
   "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "author": {
     "name": "Vitaly Pereslavtsev",
     "email": "dev@pereslavtsev.com",
@@ -30,16 +32,18 @@
     "protoc:gen:doc": "docker run --rm -v $(pwd)/doc:/out -v $(pwd)/src/proto:/protos pseudomuto/protoc-gen-doc"
   },
   "peerDependencies": {
+    "@grpc/grpc-js": "^1.4.4",
+    "@grpc/proto-loader": "^0.6.6",
     "@nestjs/microservices": "^8.2.0",
     "rxjs": "^7.4.0"
   },
   "dependencies": {
-    "@grpc/grpc-js": "^1.4.2",
-    "@grpc/proto-loader": "^0.6.6",
     "long": "^5.1.0",
     "protobufjs": "^6.11.2"
   },
   "devDependencies": {
+    "@grpc/grpc-js": "^1.4.4",
+    "@grpc/proto-loader": "^0.6.6",
     "@nestjs/cli": "^8.0.0",
     "@nestjs/common": "^8.0.0",
     "@nestjs/core": "^8.0.0",
