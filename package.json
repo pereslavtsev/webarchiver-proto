@@ -1,0 +1,51 @@
+{
+  "name": "@webarchiver/protoc",
+  "version": "1.0.0",
+  "description": "",
+  "author": {
+    "name": "Vitaly Pereslavtsev",
+    "email": "dev@pereslavtsev.com",
+    "url": "https://www.pereslavtsev.com/"
+  },
+  "license": "ISC",
+  "publishConfig": {
+    "registry":"https://npm.pkg.github.com"
+  },
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "prepare": "husky install",
+    "build": "nest build",
+    "lint": "eslint \"packages/**/*.ts\" --fix",
+    "protoc:gen": "make protoc-gen",
+    "protoc:gen:doc": "docker run --rm -v $(pwd)/doc:/out -v $(pwd)/src/proto:/protos pseudomuto/protoc-gen-doc"
+  },
+  "peerDependencies": {
+    "@nestjs/microservices": "^8.2.0",
+    "rxjs": "^7.4.0"
+  },
+  "dependencies": {
+    "@grpc/grpc-js": "^1.4.2",
+    "@grpc/proto-loader": "^0.6.6",
+    "long": "^5.1.0",
+    "protobufjs": "^6.11.2"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^8.0.0",
+    "@nestjs/common": "^8.0.0",
+    "@nestjs/core": "^8.0.0",
+    "@nestjs/microservices": "^8.2.0",
+    "@nestjs/schematics": "^8.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
+    "eslint": "^8.0.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "husky": "^7.0.4",
+    "prettier": "^2.3.2",
+    "reflect-metadata": "^0.1.13",
+    "rimraf": "^3.0.2",
+    "rxjs": "^7.4.0",
+    "ts-proto": "^1.85.0",
+    "typescript": "^4.3.5"
+  }
+}
