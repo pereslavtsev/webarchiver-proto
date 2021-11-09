@@ -1,4 +1,5 @@
 # compiled output
+/docs
 /node_modules
 
 # lock files

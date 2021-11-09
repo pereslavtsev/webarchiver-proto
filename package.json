@@ -29,7 +29,7 @@
     "lint": "eslint \"packages/**/*.ts\" --fix",
     "prepublish": "pnpm prebuild && pnpm build",
     "protoc:gen": "make protoc-gen",
-    "protoc:gen:doc": "docker run --rm -v $(pwd)/doc:/out -v $(pwd)/src/proto:/protos pseudomuto/protoc-gen-doc"
+    "docs:gen": "sh make_docs.sh"
   },
   "peerDependencies": {
     "@grpc/grpc-js": "^1.4.4",
