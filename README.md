@@ -2,6 +2,12 @@
 
 A shared package of Protocol Buffers schemas (Protobuf) and generated code for using between WebArchiver gRPC microservices. TypeScript types created via [`ts-proto`](https://github.com/stephenh/ts-proto) generator with a Nest.js server interfaces [options](https://github.com/stephenh/ts-proto/blob/main/NESTJS.markdown).
 
+## Usage
+```bash
+$ pnpm protoc:gen
+
+$ pnpm build
+```
 
 ## License
 ISC
