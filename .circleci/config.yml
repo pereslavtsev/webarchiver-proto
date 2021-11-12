@@ -17,9 +17,9 @@ jobs:
       - run:
           command: pnpm lint
           name: Run linter
-      - run:
-          command: 'pnpm protoc:gen'
-          name: Complile profobuf
+#       - run:
+#           command: 'pnpm protoc:gen'
+#           name: Complile profobuf
       - run:
           command: pnpm build
           name: Build
