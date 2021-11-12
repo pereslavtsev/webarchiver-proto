@@ -1,4 +1,4 @@
-version: '2.1'
+version: 2.1
 orbs:
   node: circleci/node@4.4.0
 jobs:
@@ -16,10 +16,10 @@ jobs:
       - run:
           command: pnpm lint
           name: Run linter
-     - run:
+      - run:
           command: 'pnpm protoc:gen'
           name: Complile profobuf
-     - run:
+      - run:
           command: pnpm build
           name: Build
 workflows:
