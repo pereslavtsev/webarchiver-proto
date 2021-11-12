@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
   node: circleci/node@4.4.0
-  go: travelaudience/go@0.6.0
+  protobuf: izumin5210/protobuf@0.1.0
 jobs:
   build:
     docker:
@@ -23,6 +23,11 @@ jobs:
       - run:
           command: pnpm build
           name: Build
+  protoc:
+    docker:
+      - image: circleci/golang
+    steps:
+      - run: protoc --version
 workflows:
   test_lib:
     jobs:
