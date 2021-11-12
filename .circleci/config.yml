@@ -1,0 +1,28 @@
+version: '2.1'
+orbs:
+  coveralls: coveralls/coveralls@1.0.6
+jobs:
+  build:
+    docker:
+      - image: 'cimg/node:16.13.0'
+    steps:
+      - checkout
+      - run:
+          name: Install pnpm
+          command: sudo npm i -g pnpm
+      - run:
+          name: Install Dependencies
+          command: pnpm install --frozen-lockfile
+      - run:
+          command: pnpm lint
+          name: Run linter
+     - run:
+          command: pnpm protoc:gen
+          name: Complile profobuf
+     - run:
+          command: pnpm build
+          name: Build
+workflows:
+  test_lib:
+    jobs:
+      - build
