@@ -6,6 +6,15 @@
 
 A shared package of [Protocol Buffers](https://developers.google.com/protocol-buffers) (Protobuf) schemas and generated code for using between WebArchiver gRPC microservices. TypeScript types was created via [`ts-proto`](https://github.com/stephenh/ts-proto) generator with a Nest.js server interfaces [options](https://github.com/stephenh/ts-proto/blob/main/NESTJS.markdown).
 
+## Install
+```
+$ npm i @webarchiver/protoc
+
+$ yarn add @webarchiver/protoc
+
+$ pnpm add @webarchiver/protoc
+```
+
 ## Usage
 ```bash
 $ pnpm protoc:gen
