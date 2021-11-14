@@ -1,0 +1,34 @@
+version: 2.1
+orbs:
+  node: circleci/node@4.4.0
+  protobuf: izumin5210/protobuf@0.1.0
+jobs:
+  build:
+    docker:
+      - image: 'cimg/node:16.13.0'
+    steps:
+      - checkout
+      - run:
+          name: Install pnpm
+          command: sudo npm i -g pnpm
+      - run:
+          name: Install Dependencies
+          command: pnpm install --frozen-lockfile
+      - run:
+          command: pnpm lint
+          name: Run linter
+#       - run:
+#           command: 'pnpm protoc:gen'
+#           name: Complile profobuf
+      - run:
+          command: pnpm build
+          name: Build
+  protoc:
+    docker:
+      - image: circleci/golang
+    steps:
+      - run: protoc --version
+workflows:
+  test_lib:
+    jobs:
+      - build
