@@ -1,3 +1,31 @@
 syntax = "proto3";
 
+import "google/protobuf/timestamp.proto";
+
 package webarchiver.archiver.v1;
+
+service TasksService {
+//  rpc ListTasks (ListTasksRequest) returns (ListTasksResponse);
+//  rpc CreateTask (CreateTaskRequest) returns (Task);
+}
+//
+//message ListTasksRequest {
+//  int32 page_size = 1;
+//  string page_token = 2;
+//  string order_by = 3;
+//}
+//
+//message ListTasksResponse {
+//  repeated Task data = 1;
+//  string next_page_token = 2;
+//}
+//
+//message CreateTaskRequest {
+//  int32 page_id = 1;
+//}
+//
+//message Task {
+//  string id = 1;
+//  google.protobuf.Timestamp created_at = 10;
+//  google.protobuf.Timestamp updated_at = 11;
+//}

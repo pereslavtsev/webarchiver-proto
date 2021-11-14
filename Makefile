@@ -8,4 +8,6 @@ protoc-gen:
 		--ts_proto_opt=addGrpcMetadata=true \
 		--ts_proto_opt=addNestjsRestParameter=true \
 		--ts_proto_opt=emitImportedFiles=false \
-		--ts_proto_opt=useDate=true
+		--ts_proto_opt=useDate=true \
+		--ts_proto_opt=unrecognizedEnum=false
+		--ts_proto_opt=forceLong=long
