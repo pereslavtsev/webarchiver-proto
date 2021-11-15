@@ -42,6 +42,8 @@
     "protobufjs": "^6.11.2"
   },
   "devDependencies": {
+    "@commitlint/cli": "^14.1.0",
+    "@commitlint/config-conventional": "^14.1.0",
     "@grpc/grpc-js": "^1.4.4",
     "@grpc/proto-loader": "^0.6.6",
     "@nestjs/cli": "^8.0.0",
