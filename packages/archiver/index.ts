@@ -4,4 +4,4 @@ export function getProtoPath() {
   return buildProtoPath('archiver');
 }
 
-export * from './archiver';
+export * as v1 from './archiver';

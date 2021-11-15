@@ -2,30 +2,54 @@ syntax = "proto3";
 
 import "google/protobuf/timestamp.proto";
 
-package webarchiver.archiver.v1;
+package webarchiver.core.v1;
 
 service TasksService {
-//  rpc ListTasks (ListTasksRequest) returns (ListTasksResponse);
-//  rpc CreateTask (CreateTaskRequest) returns (Task);
+  rpc ListTasks (ListTasksRequest) returns (ListTasksResponse);
+  rpc CreateTask (CreateTaskRequest) returns (Task);
+  rpc GetTask (GetTaskRequest) returns (Task);
+  rpc CancelTask (CancelTaskRequest) returns (Task);
 }
-//
-//message ListTasksRequest {
-//  int32 page_size = 1;
-//  string page_token = 2;
-//  string order_by = 3;
-//}
-//
-//message ListTasksResponse {
-//  repeated Task data = 1;
-//  string next_page_token = 2;
-//}
-//
-//message CreateTaskRequest {
-//  int32 page_id = 1;
-//}
-//
-//message Task {
-//  string id = 1;
-//  google.protobuf.Timestamp created_at = 10;
-//  google.protobuf.Timestamp updated_at = 11;
-//}
+
+message ListTasksRequest {
+  int32 page_size = 1;
+  string page_token = 2;
+  string order_by = 3;
+}
+
+message ListTasksResponse {
+  repeated Task data = 1;
+  string next_page_token = 2;
+}
+
+message CreateTaskRequest {
+  int32 page_id = 1;
+}
+
+message GetTaskRequest {
+  string id = 1;
+}
+
+message CancelTaskRequest {
+  string id = 1;
+}
+
+message Task {
+  string id = 1;
+
+  enum Status {
+    PENDING = 0;
+    ACCEPTED = 1;
+    SKIPPED = 2;
+    MATCHED = 3;
+    ARCHIVED = 4;
+    FAILED = 5;
+    CANCELLED = 6;
+    DONE = 7;
+  }
+
+  Status status = 3;
+
+  google.protobuf.Timestamp created_at = 10;
+  google.protobuf.Timestamp updated_at = 11;
+}

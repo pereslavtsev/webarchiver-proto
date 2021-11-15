@@ -4,4 +4,4 @@ export function getProtoPath() {
   return buildProtoPath('crawler');
 }
 
-export * from './crawler';
+export * as v1 from './crawler';

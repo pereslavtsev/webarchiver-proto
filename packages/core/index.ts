@@ -4,4 +4,4 @@ export function getProtoPath() {
   return buildProtoPath('core');
 }
 
-export * from './core';
+export * as v1 from './core';
