@@ -22,5 +22,11 @@ $ pnpm protoc:gen
 $ pnpm build
 ```
 
+```typescript
+import { core } from '@pereslavtsev/webarchiver-protoc';
+
+core.v1
+```
+
 ## License
 ISC
