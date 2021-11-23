@@ -11,7 +11,7 @@ service WatchersService {
   rpc UpdateWatcher (UpdateWatcherRequest) returns (Watcher);
   rpc RunWatcher (GetWatcherRequest) returns (RunWatcherResponse);
   rpc PauseWatcher (GetWatcherRequest) returns (PauseWatcherResponse);
-  rpc PauseAll (PauseAllRequest) returns (PauseAllResponse);
+  rpc PauseAllWatchers (PauseAllWatchersRequest) returns (PauseAllWatchersResponse);
   rpc StopWatcher (GetWatcherRequest) returns (StopWatcherResponse);
   rpc SubscribeWatcher(GetWatcherRequest) returns (stream SubscribeWatcherResponse) {}
 }
@@ -47,12 +47,12 @@ message ListWatchersResponse {
   string next_page_token = 2;
 }
 
-message PauseAllRequest {}
+message PauseAllWatchersRequest {}
 
 message RunWatcherResponse {}
 message PauseWatcherResponse {}
 message StopWatcherResponse {}
-message PauseAllResponse {}
+message PauseAllWatchersResponse {}
 
 message GetWatcherRequest {
   string id = 1;

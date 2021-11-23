@@ -38,7 +38,7 @@ export interface ListWatchersResponse {
   nextPageToken: string;
 }
 
-export interface PauseAllRequest {}
+export interface PauseAllWatchersRequest {}
 
 export interface RunWatcherResponse {}
 
@@ -46,7 +46,7 @@ export interface PauseWatcherResponse {}
 
 export interface StopWatcherResponse {}
 
-export interface PauseAllResponse {}
+export interface PauseAllWatchersResponse {}
 
 export interface GetWatcherRequest {
   id: string;
@@ -110,11 +110,11 @@ export interface WatchersServiceClient {
     ...rest: any
   ): Observable<PauseWatcherResponse>;
 
-  pauseAll(
-    request: PauseAllRequest,
+  pauseAllWatchers(
+    request: PauseAllWatchersRequest,
     metadata: Metadata,
     ...rest: any
-  ): Observable<PauseAllResponse>;
+  ): Observable<PauseAllWatchersResponse>;
 
   stopWatcher(
     request: GetWatcherRequest,
@@ -175,14 +175,14 @@ export interface WatchersServiceController {
     | Observable<PauseWatcherResponse>
     | PauseWatcherResponse;
 
-  pauseAll(
-    request: PauseAllRequest,
+  pauseAllWatchers(
+    request: PauseAllWatchersRequest,
     metadata: Metadata,
     ...rest: any
   ):
-    | Promise<PauseAllResponse>
-    | Observable<PauseAllResponse>
-    | PauseAllResponse;
+    | Promise<PauseAllWatchersResponse>
+    | Observable<PauseAllWatchersResponse>
+    | PauseAllWatchersResponse;
 
   stopWatcher(
     request: GetWatcherRequest,
@@ -209,7 +209,7 @@ export function WatchersServiceControllerMethods() {
       'updateWatcher',
       'runWatcher',
       'pauseWatcher',
-      'pauseAll',
+      'pauseAllWatchers',
       'stopWatcher',
       'subscribeWatcher',
     ];
