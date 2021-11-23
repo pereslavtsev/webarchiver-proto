@@ -1,5 +1,5 @@
 {
-  "name": "@webarchiver/protoc",
+  "name": "@pereslavtsev/webarchiver-protoc",
   "version": "0.0.1",
   "description": "",
   "main": "dist/index.js",
@@ -23,10 +23,10 @@
     "registry": "https://npm.pkg.github.com"
   },
   "scripts": {
-    "prebuild": "rimraf dist",
+    "prebuild": "rimraf dist && copyfiles -f src/**/*.proto dist/proto",
     "prepare": "husky install",
-    "build": "nest build",
-    "lint": "eslint \"packages/**/*.ts\" --fix",
+    "build": "tsc --p tsconfig.build.json",
+    "lint": "eslint \"src/**/*.ts\" --fix",
     "prepublish": "pnpm prebuild && pnpm build",
     "protoc:gen": "make protoc-gen",
     "docs:gen": "sh make_docs.sh"
@@ -53,6 +53,7 @@
     "@nestjs/schematics": "^8.0.0",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
+    "copyfiles": "^2.4.1",
     "eslint": "^8.0.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",

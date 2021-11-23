@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package pereslavtsev.webarchiver.v1;
+
+service SnapshotsService {
+  rpc GetSnapshotsStream (GetSnapshotsRequest) returns (stream Snapshot);
+}
+
+message GetSnapshotsRequest {
+  string task_id = 1;
+}
+
+message Snapshot {
+  string id = 1;
+  string uri = 2;
+
+  enum Status {
+    PENDING = 0;
+    CHECKED = 1;
+    FAILED = 2;
+    CANCELLED = 3;
+  }
+
+  Status status = 3;
+  google.protobuf.Timestamp captured_at = 9;
+  google.protobuf.Timestamp created_at = 10;
+  google.protobuf.Timestamp updated_at = 11;
+}

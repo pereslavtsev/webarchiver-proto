@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+import "archiver.proto";
+import "snapshots.proto";
+import "sources.proto";
+import "tasks.proto";
+import "watchers.proto";
+
+package pereslavtsev.webarchiver.v1;

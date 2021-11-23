@@ -2,7 +2,7 @@ syntax = "proto3";
 
 import "google/protobuf/timestamp.proto";
 
-package webarchiver.crawler.v1;
+package pereslavtsev.webarchiver.v1;
 
 service WatchersService {
   rpc ListWatchers (ListWatchersRequest) returns (ListWatchersResponse);

@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package pereslavtsev.webarchiver.v1;
+
+service SourcesService {
+  rpc GetSourcesStream(GetSourcesRequest) returns (stream Source);
+  rpc ArchiveSource (ArchiveSourceRequest) returns (Source);
+  rpc DiscardSource (DiscardSourceRequest) returns (Source);
+}
+
+message GetSourcesRequest {
+  string task_id = 1;
+}
+
+message DiscardSourceRequest {
+  string id = 1;
+}
+
+message ArchiveSourceRequest {
+  string id = 1;
+  string archive_url = 2;
+  google.protobuf.Timestamp archive_date = 3;
+}
+
+message Source {
+  string id = 1;
+  string title = 2;
+  string url = 3;
+
+  enum Status {
+    PENDING = 0;
+    MATCHED = 1;
+    MISMATCHED = 2;
+    FAILED = 3;
+    ARCHIVED = 4;
+    DISCARDED = 5;
+  }
+
+  Status status = 4;
+
+  google.protobuf.Timestamp revision_date = 9;
+  google.protobuf.Timestamp created_at = 10;
+  google.protobuf.Timestamp updated_at = 11;
+}

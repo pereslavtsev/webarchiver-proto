@@ -5,7 +5,7 @@ import _m0 from 'protobufjs/minimal';
 import { Observable } from 'rxjs';
 import { Metadata } from '@grpc/grpc-js';
 
-export const protobufPackage = 'webarchiver.archiver.v1';
+export const protobufPackage = 'pereslavtsev.webarchiver.v1';
 
 export interface ListTasksRequest {
   pageSize: number;
@@ -18,25 +18,21 @@ export interface ListTasksResponse {
   nextPageToken: string;
 }
 
+export interface CreateTaskRequest {
+  pageId: number;
+}
+
 export interface GetTaskRequest {
   id: string;
 }
 
-export interface GetSnapshotsRequest {
-  taskId: string;
-}
-
-export interface CreateTaskRequest {
-  url: string;
-  desiredDate: Date | undefined;
-  quote: string;
+export interface CancelTaskRequest {
+  id: string;
 }
 
 export interface Task {
   id: string;
-  url: string;
-  desiredDate: Date | undefined;
-  quote: string;
+  pageId: number;
   status: Task_Status;
   createdAt: Date | undefined;
   updatedAt: Date | undefined;
@@ -44,31 +40,19 @@ export interface Task {
 
 export enum Task_Status {
   PENDING = 0,
-  IN_PROGRESS = 1,
-  DONE = 2,
-  FAILED = 3,
-  CANCELLED = 4,
+  ACCEPTED = 1,
+  SKIPPED = 2,
+  MATCHED = 3,
+  ARCHIVED = 4,
+  FAILED = 5,
+  CANCELLED = 6,
+  DONE = 7,
 }
 
-export interface Snapshot {
-  id: string;
-  uri: string;
-  status: Snapshot_Status;
-  capturedAt: Date | undefined;
-  createdAt: Date | undefined;
-  updatedAt: Date | undefined;
-}
+export const PERESLAVTSEV_WEBARCHIVER_V1_PACKAGE_NAME =
+  'pereslavtsev.webarchiver.v1';
 
-export enum Snapshot_Status {
-  PENDING = 0,
-  CHECKED = 1,
-  FAILED = 2,
-  CANCELLED = 3,
-}
-
-export const WEBARCHIVER_ARCHIVER_V1_PACKAGE_NAME = 'webarchiver.archiver.v1';
-
-export interface ArchiverServiceClient {
+export interface TasksServiceClient {
   listTasks(
     request: ListTasksRequest,
     metadata: Metadata,
@@ -93,14 +77,20 @@ export interface ArchiverServiceClient {
     ...rest: any
   ): Observable<Task>;
 
-  cancelTask(
+  getTaskStream(
     request: GetTaskRequest,
+    metadata: Metadata,
+    ...rest: any
+  ): Observable<Task>;
+
+  cancelTask(
+    request: CancelTaskRequest,
     metadata: Metadata,
     ...rest: any
   ): Observable<Task>;
 }
 
-export interface ArchiverServiceController {
+export interface TasksServiceController {
   listTasks(
     request: ListTasksRequest,
     metadata: Metadata,
@@ -128,20 +118,27 @@ export interface ArchiverServiceController {
     ...rest: any
   ): Promise<Task> | Observable<Task> | Task;
 
-  cancelTask(
+  getTaskStream(
     request: GetTaskRequest,
+    metadata: Metadata,
+    ...rest: any
+  ): Observable<Task>;
+
+  cancelTask(
+    request: CancelTaskRequest,
     metadata: Metadata,
     ...rest: any
   ): Promise<Task> | Observable<Task> | Task;
 }
 
-export function ArchiverServiceControllerMethods() {
+export function TasksServiceControllerMethods() {
   return function (constructor: Function) {
     const grpcMethods: string[] = [
       'listTasks',
       'createTask',
       'createTaskStream',
       'getTask',
+      'getTaskStream',
       'cancelTask',
     ];
     for (const method of grpcMethods) {
@@ -149,7 +146,7 @@ export function ArchiverServiceControllerMethods() {
         constructor.prototype,
         method,
       );
-      GrpcMethod('ArchiverService', method)(
+      GrpcMethod('TasksService', method)(
         constructor.prototype[method],
         method,
         descriptor,
@@ -161,7 +158,7 @@ export function ArchiverServiceControllerMethods() {
         constructor.prototype,
         method,
       );
-      GrpcStreamMethod('ArchiverService', method)(
+      GrpcStreamMethod('TasksService', method)(
         constructor.prototype[method],
         method,
         descriptor,
@@ -170,54 +167,7 @@ export function ArchiverServiceControllerMethods() {
   };
 }
 
-export const ARCHIVER_SERVICE_NAME = 'ArchiverService';
-
-export interface SnapshotsServiceClient {
-  getSnapshotsStream(
-    request: GetSnapshotsRequest,
-    metadata: Metadata,
-    ...rest: any
-  ): Observable<Snapshot>;
-}
-
-export interface SnapshotsServiceController {
-  getSnapshotsStream(
-    request: GetSnapshotsRequest,
-    metadata: Metadata,
-    ...rest: any
-  ): Observable<Snapshot>;
-}
-
-export function SnapshotsServiceControllerMethods() {
-  return function (constructor: Function) {
-    const grpcMethods: string[] = ['getSnapshotsStream'];
-    for (const method of grpcMethods) {
-      const descriptor: any = Reflect.getOwnPropertyDescriptor(
-        constructor.prototype,
-        method,
-      );
-      GrpcMethod('SnapshotsService', method)(
-        constructor.prototype[method],
-        method,
-        descriptor,
-      );
-    }
-    const grpcStreamMethods: string[] = [];
-    for (const method of grpcStreamMethods) {
-      const descriptor: any = Reflect.getOwnPropertyDescriptor(
-        constructor.prototype,
-        method,
-      );
-      GrpcStreamMethod('SnapshotsService', method)(
-        constructor.prototype[method],
-        method,
-        descriptor,
-      );
-    }
-  };
-}
-
-export const SNAPSHOTS_SERVICE_NAME = 'SnapshotsService';
+export const TASKS_SERVICE_NAME = 'TasksService';
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

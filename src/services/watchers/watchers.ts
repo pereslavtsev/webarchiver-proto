@@ -5,7 +5,7 @@ import _m0 from 'protobufjs/minimal';
 import { Observable } from 'rxjs';
 import { Metadata } from '@grpc/grpc-js';
 
-export const protobufPackage = 'webarchiver.crawler.v1';
+export const protobufPackage = 'pereslavtsev.webarchiver.v1';
 
 export interface PageInfo {
   id: number;
@@ -70,7 +70,8 @@ export interface Watcher {
   updatedAt: Date | undefined;
 }
 
-export const WEBARCHIVER_CRAWLER_V1_PACKAGE_NAME = 'webarchiver.crawler.v1';
+export const PERESLAVTSEV_WEBARCHIVER_V1_PACKAGE_NAME =
+  'pereslavtsev.webarchiver.v1';
 
 export interface WatchersServiceClient {
   listWatchers(

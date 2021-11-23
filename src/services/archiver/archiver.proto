@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package pereslavtsev.webarchiver.v1;
+
+service ArchiverService {
+  rpc ListTasks (ListArchiverTasksRequest) returns (ListArchiverTasksResponse);
+  rpc CreateTask (CreateArchiverTaskRequest) returns (ArchiverTask);
+  rpc CreateTaskStream (CreateArchiverTaskRequest) returns (stream ArchiverTask);
+  rpc GetTask (GetArchiverTaskRequest) returns (ArchiverTask);
+  rpc CancelTask (GetArchiverTaskRequest) returns (ArchiverTask);
+}
+
+message ListArchiverTasksRequest {
+  int32 page_size = 1;
+  string page_token = 2;
+  string order_by = 3;
+}
+
+message ListArchiverTasksResponse {
+  repeated ArchiverTask data = 1;
+  string next_page_token = 2;
+}
+
+message GetArchiverTaskRequest {
+  string id = 1;
+}
+
+message CreateArchiverTaskRequest {
+  string url = 2;
+  google.protobuf.Timestamp desired_date = 3;
+  string quote = 4;
+}
+
+message ArchiverTask {
+  string id = 1;
+  string url = 2;
+  google.protobuf.Timestamp desired_date = 3;
+  string quote = 4;
+
+  enum Status {
+    PENDING = 0;
+    IN_PROGRESS = 1;
+    DONE = 2;
+    FAILED = 3;
+    CANCELLED = 4;
+  }
+
+  Status status = 5;
+  google.protobuf.Timestamp created_at = 10;
+  google.protobuf.Timestamp updated_at = 11;
+}

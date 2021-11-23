@@ -1,7 +1,7 @@
 protoc-gen:
 	protoc \
 		--plugin=node_modules/ts-proto/protoc-gen-ts_proto \
-		--ts_proto_out=. packages/**/*.proto \
+		--ts_proto_out=. src/services/**/*.proto \
 		--ts_proto_opt=esModuleInterop=true \
 		--ts_proto_opt=env=node \
 		--ts_proto_opt=nestJs=true \
