@@ -8,11 +8,11 @@ A shared package of [Protocol Buffers](https://developers.google.com/protocol-bu
 
 ## Install
 ```
-$ npm i @webarchiver/protoc
+$ npm i @pereslavtsev/webarchiver-protoc
 
-$ yarn add @webarchiver/protoc
+$ yarn add @pereslavtsev/webarchiver-protoc
 
-$ pnpm add @webarchiver/protoc
+$ pnpm add @pereslavtsev/webarchiver-protoc
 ```
 
 ## Usage
@@ -20,6 +20,12 @@ $ pnpm add @webarchiver/protoc
 $ pnpm protoc:gen
 
 $ pnpm build
+```
+
+```typescript
+import { core } from '@pereslavtsev/webarchiver-protoc';
+
+core.v1
 ```
 
 ## License
