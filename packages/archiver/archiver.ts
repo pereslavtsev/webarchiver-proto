@@ -22,6 +22,10 @@ export interface GetTaskRequest {
   id: string;
 }
 
+export interface GetSnapshotsRequest {
+  taskId: string;
+}
+
 export interface CreateTaskRequest {
   url: string;
   desiredDate: Date | undefined;
@@ -34,7 +38,6 @@ export interface Task {
   desiredDate: Date | undefined;
   quote: string;
   status: Task_Status;
-  snapshots: Snapshot[];
   createdAt: Date | undefined;
   updatedAt: Date | undefined;
 }
@@ -168,6 +171,53 @@ export function ArchiverServiceControllerMethods() {
 }
 
 export const ARCHIVER_SERVICE_NAME = 'ArchiverService';
+
+export interface SnapshotsServiceClient {
+  getSnapshotsStream(
+    request: GetSnapshotsRequest,
+    metadata: Metadata,
+    ...rest: any
+  ): Observable<Snapshot>;
+}
+
+export interface SnapshotsServiceController {
+  getSnapshotsStream(
+    request: GetSnapshotsRequest,
+    metadata: Metadata,
+    ...rest: any
+  ): Observable<Snapshot>;
+}
+
+export function SnapshotsServiceControllerMethods() {
+  return function (constructor: Function) {
+    const grpcMethods: string[] = ['getSnapshotsStream'];
+    for (const method of grpcMethods) {
+      const descriptor: any = Reflect.getOwnPropertyDescriptor(
+        constructor.prototype,
+        method,
+      );
+      GrpcMethod('SnapshotsService', method)(
+        constructor.prototype[method],
+        method,
+        descriptor,
+      );
+    }
+    const grpcStreamMethods: string[] = [];
+    for (const method of grpcStreamMethods) {
+      const descriptor: any = Reflect.getOwnPropertyDescriptor(
+        constructor.prototype,
+        method,
+      );
+      GrpcStreamMethod('SnapshotsService', method)(
+        constructor.prototype[method],
+        method,
+        descriptor,
+      );
+    }
+  };
+}
+
+export const SNAPSHOTS_SERVICE_NAME = 'SnapshotsService';
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

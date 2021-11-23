@@ -7,8 +7,30 @@ package webarchiver.core.v1;
 service TasksService {
   rpc ListTasks (ListTasksRequest) returns (ListTasksResponse);
   rpc CreateTask (CreateTaskRequest) returns (Task);
+  rpc CreateTaskStream (CreateTaskRequest) returns (stream Task);
   rpc GetTask (GetTaskRequest) returns (Task);
+  rpc GetTaskStream (GetTaskRequest) returns (stream Task);
   rpc CancelTask (CancelTaskRequest) returns (Task);
+}
+
+service SourcesService {
+  rpc GetSourcesStream(GetSourcesRequest) returns (stream Source);
+  rpc ArchiveSource (ArchiveSourceRequest) returns (Source);
+  rpc DiscardSource (DiscardSourceRequest) returns (Source);
+}
+
+message GetSourcesRequest {
+  string task_id = 1;
+}
+
+message DiscardSourceRequest {
+  string id = 1;
+}
+
+message ArchiveSourceRequest {
+  string id = 1;
+  string archive_url = 2;
+  google.protobuf.Timestamp archive_date = 3;
 }
 
 message ListTasksRequest {
@@ -34,8 +56,30 @@ message CancelTaskRequest {
   string id = 1;
 }
 
+message Source {
+  string id = 1;
+  string title = 2;
+  string url = 3;
+
+  enum Status {
+    PENDING = 0;
+    MATCHED = 1;
+    MISMATCHED = 2;
+    FAILED = 3;
+    ARCHIVED = 4;
+    DISCARDED = 5;
+  }
+
+  Status status = 4;
+
+  google.protobuf.Timestamp revision_date = 9;
+  google.protobuf.Timestamp created_at = 10;
+  google.protobuf.Timestamp updated_at = 11;
+}
+
 message Task {
   string id = 1;
+  int32 page_id = 2;
 
   enum Status {
     PENDING = 0;

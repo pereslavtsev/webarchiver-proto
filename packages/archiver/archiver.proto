@@ -12,6 +12,10 @@ service ArchiverService {
   rpc CancelTask (GetTaskRequest) returns (Task);
 }
 
+service SnapshotsService {
+  rpc GetSnapshotsStream (GetSnapshotsRequest) returns (stream Snapshot);
+}
+
 message ListTasksRequest {
   int32 page_size = 1;
   string page_token = 2;
@@ -25,6 +29,10 @@ message ListTasksResponse {
 
 message GetTaskRequest {
   string id = 1;
+}
+
+message GetSnapshotsRequest {
+  string task_id = 1;
 }
 
 message CreateTaskRequest {
@@ -48,7 +56,6 @@ message Task {
   }
 
   Status status = 5;
-  repeated Snapshot snapshots = 6;
   google.protobuf.Timestamp created_at = 10;
   google.protobuf.Timestamp updated_at = 11;
 }

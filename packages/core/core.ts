@@ -7,6 +7,20 @@ import { Metadata } from '@grpc/grpc-js';
 
 export const protobufPackage = 'webarchiver.core.v1';
 
+export interface GetSourcesRequest {
+  taskId: string;
+}
+
+export interface DiscardSourceRequest {
+  id: string;
+}
+
+export interface ArchiveSourceRequest {
+  id: string;
+  archiveUrl: string;
+  archiveDate: Date | undefined;
+}
+
 export interface ListTasksRequest {
   pageSize: number;
   pageToken: string;
@@ -30,8 +44,28 @@ export interface CancelTaskRequest {
   id: string;
 }
 
+export interface Source {
+  id: string;
+  title: string;
+  url: string;
+  status: Source_Status;
+  revisionDate: Date | undefined;
+  createdAt: Date | undefined;
+  updatedAt: Date | undefined;
+}
+
+export enum Source_Status {
+  PENDING = 0,
+  MATCHED = 1,
+  MISMATCHED = 2,
+  FAILED = 3,
+  ARCHIVED = 4,
+  DISCARDED = 5,
+}
+
 export interface Task {
   id: string;
+  pageId: number;
   status: Task_Status;
   createdAt: Date | undefined;
   updatedAt: Date | undefined;
@@ -63,7 +97,19 @@ export interface TasksServiceClient {
     ...rest: any
   ): Observable<Task>;
 
+  createTaskStream(
+    request: CreateTaskRequest,
+    metadata: Metadata,
+    ...rest: any
+  ): Observable<Task>;
+
   getTask(
+    request: GetTaskRequest,
+    metadata: Metadata,
+    ...rest: any
+  ): Observable<Task>;
+
+  getTaskStream(
     request: GetTaskRequest,
     metadata: Metadata,
     ...rest: any
@@ -92,11 +138,23 @@ export interface TasksServiceController {
     ...rest: any
   ): Promise<Task> | Observable<Task> | Task;
 
+  createTaskStream(
+    request: CreateTaskRequest,
+    metadata: Metadata,
+    ...rest: any
+  ): Observable<Task>;
+
   getTask(
     request: GetTaskRequest,
     metadata: Metadata,
     ...rest: any
   ): Promise<Task> | Observable<Task> | Task;
+
+  getTaskStream(
+    request: GetTaskRequest,
+    metadata: Metadata,
+    ...rest: any
+  ): Observable<Task>;
 
   cancelTask(
     request: CancelTaskRequest,
@@ -110,7 +168,9 @@ export function TasksServiceControllerMethods() {
     const grpcMethods: string[] = [
       'listTasks',
       'createTask',
+      'createTaskStream',
       'getTask',
+      'getTaskStream',
       'cancelTask',
     ];
     for (const method of grpcMethods) {
@@ -140,6 +200,81 @@ export function TasksServiceControllerMethods() {
 }
 
 export const TASKS_SERVICE_NAME = 'TasksService';
+
+export interface SourcesServiceClient {
+  getSourcesStream(
+    request: GetSourcesRequest,
+    metadata: Metadata,
+    ...rest: any
+  ): Observable<Source>;
+
+  archiveSource(
+    request: ArchiveSourceRequest,
+    metadata: Metadata,
+    ...rest: any
+  ): Observable<Source>;
+
+  discardSource(
+    request: DiscardSourceRequest,
+    metadata: Metadata,
+    ...rest: any
+  ): Observable<Source>;
+}
+
+export interface SourcesServiceController {
+  getSourcesStream(
+    request: GetSourcesRequest,
+    metadata: Metadata,
+    ...rest: any
+  ): Observable<Source>;
+
+  archiveSource(
+    request: ArchiveSourceRequest,
+    metadata: Metadata,
+    ...rest: any
+  ): Promise<Source> | Observable<Source> | Source;
+
+  discardSource(
+    request: DiscardSourceRequest,
+    metadata: Metadata,
+    ...rest: any
+  ): Promise<Source> | Observable<Source> | Source;
+}
+
+export function SourcesServiceControllerMethods() {
+  return function (constructor: Function) {
+    const grpcMethods: string[] = [
+      'getSourcesStream',
+      'archiveSource',
+      'discardSource',
+    ];
+    for (const method of grpcMethods) {
+      const descriptor: any = Reflect.getOwnPropertyDescriptor(
+        constructor.prototype,
+        method,
+      );
+      GrpcMethod('SourcesService', method)(
+        constructor.prototype[method],
+        method,
+        descriptor,
+      );
+    }
+    const grpcStreamMethods: string[] = [];
+    for (const method of grpcStreamMethods) {
+      const descriptor: any = Reflect.getOwnPropertyDescriptor(
+        constructor.prototype,
+        method,
+      );
+      GrpcStreamMethod('SourcesService', method)(
+        constructor.prototype[method],
+        method,
+        descriptor,
+      );
+    }
+  };
+}
+
+export const SOURCES_SERVICE_NAME = 'SourcesService';
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;
