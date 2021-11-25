@@ -23,7 +23,7 @@ export interface PageInfo {
   canonicalUrl: string;
 }
 
-export interface SubscribeWatcherResponse {
+export interface WatcherStreamResponse {
   pages: PageInfo[];
 }
 
@@ -40,12 +40,6 @@ export interface ListWatchersResponse {
 
 export interface PauseAllWatchersRequest {}
 
-export interface RunWatcherResponse {}
-
-export interface PauseWatcherResponse {}
-
-export interface StopWatcherResponse {}
-
 export interface PauseAllWatchersResponse {}
 
 export interface GetWatcherRequest {
@@ -53,7 +47,6 @@ export interface GetWatcherRequest {
 }
 
 export interface CreateWatcherRequest {
-  id: string;
   name: string;
 }
 
@@ -65,9 +58,15 @@ export interface UpdateWatcherRequest {
 export interface Watcher {
   id: string;
   name: string;
-  active: boolean;
+  status: Watcher_Status;
   createdAt: Date | undefined;
   updatedAt: Date | undefined;
+}
+
+export enum Watcher_Status {
+  PENDING = 0,
+  ACTIVE = 1,
+  PAUSED = 2,
 }
 
 export const PERESLAVTSEV_WEBARCHIVER_V1_PACKAGE_NAME =
@@ -102,13 +101,13 @@ export interface WatchersServiceClient {
     request: GetWatcherRequest,
     metadata: Metadata,
     ...rest: any
-  ): Observable<RunWatcherResponse>;
+  ): Observable<Watcher>;
 
   pauseWatcher(
     request: GetWatcherRequest,
     metadata: Metadata,
     ...rest: any
-  ): Observable<PauseWatcherResponse>;
+  ): Observable<Watcher>;
 
   pauseAllWatchers(
     request: PauseAllWatchersRequest,
@@ -120,13 +119,13 @@ export interface WatchersServiceClient {
     request: GetWatcherRequest,
     metadata: Metadata,
     ...rest: any
-  ): Observable<StopWatcherResponse>;
+  ): Observable<Watcher>;
 
-  subscribeWatcher(
+  watcherStream(
     request: GetWatcherRequest,
     metadata: Metadata,
     ...rest: any
-  ): Observable<SubscribeWatcherResponse>;
+  ): Observable<WatcherStreamResponse>;
 }
 
 export interface WatchersServiceController {
@@ -161,19 +160,13 @@ export interface WatchersServiceController {
     request: GetWatcherRequest,
     metadata: Metadata,
     ...rest: any
-  ):
-    | Promise<RunWatcherResponse>
-    | Observable<RunWatcherResponse>
-    | RunWatcherResponse;
+  ): Promise<Watcher> | Observable<Watcher> | Watcher;
 
   pauseWatcher(
     request: GetWatcherRequest,
     metadata: Metadata,
     ...rest: any
-  ):
-    | Promise<PauseWatcherResponse>
-    | Observable<PauseWatcherResponse>
-    | PauseWatcherResponse;
+  ): Promise<Watcher> | Observable<Watcher> | Watcher;
 
   pauseAllWatchers(
     request: PauseAllWatchersRequest,
@@ -188,16 +181,13 @@ export interface WatchersServiceController {
     request: GetWatcherRequest,
     metadata: Metadata,
     ...rest: any
-  ):
-    | Promise<StopWatcherResponse>
-    | Observable<StopWatcherResponse>
-    | StopWatcherResponse;
+  ): Promise<Watcher> | Observable<Watcher> | Watcher;
 
-  subscribeWatcher(
+  watcherStream(
     request: GetWatcherRequest,
     metadata: Metadata,
     ...rest: any
-  ): Observable<SubscribeWatcherResponse>;
+  ): Observable<WatcherStreamResponse>;
 }
 
 export function WatchersServiceControllerMethods() {
@@ -211,7 +201,7 @@ export function WatchersServiceControllerMethods() {
       'pauseWatcher',
       'pauseAllWatchers',
       'stopWatcher',
-      'subscribeWatcher',
+      'watcherStream',
     ];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(

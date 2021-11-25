@@ -9,11 +9,11 @@ service WatchersService {
   rpc GetWatcher (GetWatcherRequest) returns (Watcher);
   rpc CreateWatcher (CreateWatcherRequest) returns (Watcher);
   rpc UpdateWatcher (UpdateWatcherRequest) returns (Watcher);
-  rpc RunWatcher (GetWatcherRequest) returns (RunWatcherResponse);
-  rpc PauseWatcher (GetWatcherRequest) returns (PauseWatcherResponse);
+  rpc RunWatcher (GetWatcherRequest) returns (Watcher);
+  rpc PauseWatcher (GetWatcherRequest) returns (Watcher);
   rpc PauseAllWatchers (PauseAllWatchersRequest) returns (PauseAllWatchersResponse);
-  rpc StopWatcher (GetWatcherRequest) returns (StopWatcherResponse);
-  rpc SubscribeWatcher(GetWatcherRequest) returns (stream SubscribeWatcherResponse) {}
+  rpc StopWatcher (GetWatcherRequest) returns (Watcher);
+  rpc WatcherStream (GetWatcherRequest) returns (stream WatcherStreamResponse) {}
 }
 
 message PageInfo {
@@ -32,7 +32,7 @@ message PageInfo {
   string canonical_url = 13;
 }
 
-message SubscribeWatcherResponse {
+message WatcherStreamResponse {
   repeated PageInfo pages = 1;
 }
 
@@ -48,10 +48,6 @@ message ListWatchersResponse {
 }
 
 message PauseAllWatchersRequest {}
-
-message RunWatcherResponse {}
-message PauseWatcherResponse {}
-message StopWatcherResponse {}
 message PauseAllWatchersResponse {}
 
 message GetWatcherRequest {
@@ -59,7 +55,6 @@ message GetWatcherRequest {
 }
 
 message CreateWatcherRequest {
-  string id = 1;
   string name = 2;
 }
 
@@ -71,7 +66,15 @@ message UpdateWatcherRequest {
 message Watcher {
   string id = 1;
   string name = 2;
-  bool active = 3;
+
+  enum Status {
+    PENDING = 0;
+    ACTIVE = 1;
+    PAUSED = 2;
+  }
+
+  Status status = 3;
+
   google.protobuf.Timestamp created_at = 10;
   google.protobuf.Timestamp updated_at = 11;
 }
