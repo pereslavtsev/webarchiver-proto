@@ -24,7 +24,7 @@ message PageInfo {
   string page_language = 5;
   string page_language_html_code = 6;
   string page_language_dir = 7;
-  string touched = 8;
+  google.protobuf.Timestamp touched_at = 8;
   int32 last_rev_id = 9;
   int32 length = 10;
   string full_url = 11;

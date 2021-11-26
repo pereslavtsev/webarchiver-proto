@@ -1,6 +1,6 @@
 {
   "name": "@pereslavtsev/webarchiver-protoc",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A shared package of Protocol Buffers (Protobuf) schemas and generated code for using between WebArchiver gRPC microservices",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
